@@ -1,14 +1,11 @@
 <script setup lang="ts">
-defineProps({
-  selected: {
-    type: String,
-    default: 'all',
-  },
-});
+defineProps<{
+  selected: 'all' | 'done' | 'todo';
+}>();
 
 type FilterItem = {
-  label: string;
-  value: string;
+  label: '全部' | '已完成' | '未完成';
+  value: 'all' | 'done' | 'todo';
 };
 
 const filters: FilterItem[] = [

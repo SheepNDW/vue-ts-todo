@@ -23,4 +23,7 @@ import TodoListItem from './TodoListItem.vue';
 .list-leave-active {
   position: absolute;
 }
+.list-move {
+  transition: all 0.3s ease;
+}
 </style>
