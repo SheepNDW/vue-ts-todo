@@ -60,8 +60,7 @@ const switchMode = () => {
 }
 
 .form__input {
-  @apply w-full text-lg px-2 py-4 border-none outline-none rounded bg-light-300 placeholder-gray-300;
-  @apply transition-all duration-300 focus:shadow-lg;
+  @apply w-full text-lg px-2 py-4 border-none outline-none rounded bg-light-300 placeholder-gray-300 transition-all duration-300 focus:shadow-lg;
   border-bottom: 3px solid transparent;
 }
 .form__input:focus {

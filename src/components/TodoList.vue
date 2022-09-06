@@ -1,15 +1,12 @@
 <script setup lang="ts">
-defineProps({
-  todos: {
-    type: Array,
-    default: () => [],
-  },
-});
+import TodoListItem from './TodoListItem.vue';
 </script>
 
 <template>
   <div class="grid gap-y-3.5">
-    <transition-group name="list" appear> </transition-group>
+    <!-- <transition-group name="list" appear> -->
+    <TodoListItem />
+    <!-- </transition-group> -->
   </div>
 </template>
 

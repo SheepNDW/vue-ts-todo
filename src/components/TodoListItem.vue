@@ -1,31 +1,22 @@
-<script setup lang="ts">
-defineProps({
-  todoItem: {
-    type: Object,
-    default: () => ({}),
-  },
-});
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div class="todo-item" :class="{ done: todoItem.completed_at }">
+  <div
+    class="todo-item flex items-center p-4 text-[#626262] rounded-lg bg-white"
+    :class="{ done: false }"
+  >
     <label class="relative flex items-center mr-auto">
-      <input class="todo-item__checkbox" type="checkbox" :checked="todoItem.completed_at" />
+      <input class="todo-item__checkbox" type="checkbox" :checked="false" />
       <span class="todo-item__check-button"></span>
-      <span v-show="!todoItem.isEdit">{{ todoItem.content }}</span>
-      <input v-show="todoItem.isEdit" type="text" :value="todoItem.content" ref="inputRef" />
+      <span>{{ 'hello' }}</span>
     </label>
 
-    <i v-show="!todoItem.isEdit" class="i-ic-baseline-mode-edit-outline todo-item__icon mr-2"></i>
-    <i class="i-ic-outline-delete todo-item__icon"></i>
+    <i class="i-ic-baseline-mode-edit-outline todo-item__icon mr-2"></i>
+    <i class="i-ic-baseline-delete-outline todo-item__icon"></i>
   </div>
 </template>
 
 <style scoped>
-.todo-item {
-  @apply flex items-center p-4 text-[#626262] rounded-lg bg-white;
-}
-
 .todo-item__checkbox {
   margin-right: 1rem;
   opacity: 0;
