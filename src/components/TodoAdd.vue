@@ -1,4 +1,26 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue';
+import type { TodoItem } from '@/types';
+
+const emit = defineEmits(['addTodo']);
+
+const todoContent = ref<string>('');
+
+const emitAddTodo = () => {
+  if (!todoContent.value.trim()) {
+    return;
+  }
+
+  const todo: TodoItem = {
+    id: String(Math.random() * 1000),
+    content: todoContent.value,
+    completed_at: null,
+  };
+
+  emit('addTodo', todo);
+  todoContent.value = '';
+};
+</script>
 
 <template>
   <div class="relative flex items-center">
@@ -6,8 +28,10 @@
       type="text"
       name="todo"
       class="w-full text-base text-[#626262] py-4 pr-13 pl-[1.125rem] pb-[1.125rem] rounded-[3rem] border-none outline-none shadow-light"
+      v-model="todoContent"
+      @keyup.enter="emitAddTodo"
     />
-    <button class="add-btn">
+    <button class="add-btn" @click="emitAddTodo">
       <i class="add-btn__plus"></i>
     </button>
   </div>

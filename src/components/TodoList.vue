@@ -1,12 +1,26 @@
 <script setup lang="ts">
+import type { TodoItem, TodoList } from '@/types';
 import TodoListItem from './TodoListItem.vue';
+
+defineProps<{
+  todos: TodoList;
+}>();
+
+const changeState = (todo: TodoItem, e: Event) => {
+  todo.completed_at = (e.target as HTMLInputElement).checked;
+};
 </script>
 
 <template>
   <div class="grid gap-y-3.5">
-    <!-- <transition-group name="list" appear> -->
-    <TodoListItem />
-    <!-- </transition-group> -->
+    <transition-group name="list" appear>
+      <TodoListItem
+        v-for="todo in todos"
+        :key="todo.id"
+        :todo-item="todo"
+        @change-state="changeState(todo, $event)"
+      />
+    </transition-group>
   </div>
 </template>
 
@@ -22,5 +36,8 @@ import TodoListItem from './TodoListItem.vue';
 }
 .list-leave-active {
   position: absolute;
+}
+.list-move {
+  transition: all 0.3s ease;
 }
 </style>
