@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import type { TodoList, AddTodoFn, DeleteTodoFn, UpdateTodoFn } from '@/types';
 import { Toast } from '@/components/toast-message';
+import { http } from '@/utils/request';
 
 export default function useTodos() {
   const todos = ref<TodoList>([]);
@@ -22,10 +23,16 @@ export default function useTodos() {
     Toast({ type: 'success', text: '已更新代辦內容' });
   };
 
+  const getTodoList = async () => {
+    const res = await http<TodoList>('GET', '/todos');
+    todos.value = res.data;
+  };
+
   return {
     todos,
     addTodo,
     deleteTodo,
     updateTodo,
+    getTodoList,
   };
 }
