@@ -1,9 +1,64 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
+import type { UserRes, RegisterUser, LoginUser } from '@/types';
+import { Toast } from '@/components/toast-message';
+import { http } from '@/utils/request';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const isLogin = ref<boolean>(true);
 const switchMode = () => {
   isLogin.value = !isLogin.value;
+};
+
+const loginInfo: LoginUser = reactive({
+  email: '',
+  password: '',
+});
+
+const handleLogin = async () => {
+  try {
+    const res = await http<UserRes>('POST', '/users/sign_in', { user: loginInfo });
+    const token = res.headers.authorization;
+
+    localStorage.setItem('5xcampTodo', token);
+    Toast({ type: 'success', text: '歡迎回來!' });
+    router.replace('/');
+
+    loginInfo.email = '';
+    loginInfo.password = '';
+  } catch (err: any) {
+    Toast({ text: '帳號或密碼錯誤!' });
+  }
+};
+
+const signUpInfo: RegisterUser = reactive({
+  email: '',
+  nickname: '',
+  password: '',
+});
+
+const handleSignUp = async () => {
+  if (signUpInfo.password.length < 6 || signUpInfo.password.indexOf(' ') !== -1) {
+    return Toast({ type: 'warn', text: '密碼不得有空格或少於 6 個字元' });
+  }
+
+  try {
+    const res = await http<UserRes>('POST', '/users', { user: signUpInfo });
+    const token = res.headers.authorization;
+
+    localStorage.setItem('5xcampTodo', token);
+    Toast({ type: 'success', text: res.data.message });
+    router.replace('/');
+
+    signUpInfo.email = '';
+    signUpInfo.nickname = '';
+    signUpInfo.password = '';
+    isLogin.value = true;
+  } catch (err: any) {
+    Toast({ type: 'error', text: err.response.data.error[0] });
+  }
 };
 </script>
 
@@ -17,13 +72,27 @@ const switchMode = () => {
     <span class="h-[1px] w-16 bg-gray-200"></span>
   </div>
   <template v-if="isLogin">
-    <form class="form w-[250px]" @submit.prevent="">
+    <form class="form w-[250px]" @submit.prevent="handleLogin">
       <div class="form__group text-gray-400">
-        <input type="email" class="form__input" placeholder="Email address" id="email" required />
+        <input
+          type="email"
+          class="form__input"
+          placeholder="Email address"
+          id="email"
+          required
+          v-model="loginInfo.email"
+        />
         <label for="email" class="form__label">Email address</label>
       </div>
       <div class="form__group text-gray-400">
-        <input type="password" class="form__input" placeholder="Password" id="password" required />
+        <input
+          type="password"
+          class="form__input"
+          placeholder="Password"
+          id="password"
+          required
+          v-model="loginInfo.password"
+        />
         <label for="password" class="form__label">Password</label>
       </div>
       <div class="form__group flex flex-col justify-center items-center">
@@ -33,17 +102,38 @@ const switchMode = () => {
     </form>
   </template>
   <template v-else>
-    <form class="form w-[250px]" @submit.prevent="">
+    <form class="form w-[250px]" @submit.prevent="handleSignUp">
       <div class="form__group text-gray-400">
-        <input type="email" class="form__input" placeholder="Email address" id="email" required />
+        <input
+          type="email"
+          class="form__input"
+          placeholder="Email address"
+          id="email"
+          required
+          v-model="signUpInfo.email"
+        />
         <label for="email" class="form__label">Email address</label>
       </div>
       <div class="form__group text-gray-400">
-        <input type="text" class="form__input" placeholder="Nickname" id="nickname" required />
+        <input
+          type="text"
+          class="form__input"
+          placeholder="Nickname"
+          id="nickname"
+          required
+          v-model="signUpInfo.nickname"
+        />
         <label for="nickname" class="form__label">Nickname</label>
       </div>
       <div class="form__group text-gray-400">
-        <input type="password" class="form__input" placeholder="Password" id="password" required />
+        <input
+          type="password"
+          class="form__input"
+          placeholder="Password"
+          id="password"
+          required
+          v-model="signUpInfo.password"
+        />
         <label for="password" class="form__label">Password</label>
       </div>
       <div class="form__group flex flex-col justify-center items-center">

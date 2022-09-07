@@ -7,16 +7,23 @@ import useTodos from '@/composable/useTodo';
 import { provide } from 'vue';
 import { DeleteTodo, UpdateTodo } from '@/symbols';
 import useFilteredTodos from '@/composable/useFilteredTodo';
+import useCheckAuth from '@/composable/useCheckAuth';
 
 const { todos, addTodo, deleteTodo, updateTodo } = useTodos();
 const { filter, filteredTodos } = useFilteredTodos(todos);
+const { checkLogin, checkSuccess } = useCheckAuth();
 
 provide(DeleteTodo, deleteTodo);
 provide(UpdateTodo, updateTodo);
+
+checkLogin();
 </script>
 
 <template>
-  <main class="w-[100vw] min-h-[100vh] flex justify-center items-center bg-violet-100">
+  <main
+    v-if="checkSuccess"
+    class="w-[100vw] min-h-[100vh] flex justify-center items-center bg-violet-100"
+  >
     <div class="wrapper">
       <TodoHeader />
       <TodoAdd @add-todo="addTodo" />
