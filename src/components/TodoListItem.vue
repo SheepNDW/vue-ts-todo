@@ -2,6 +2,7 @@
 import { inject, nextTick, ref } from 'vue';
 import { DeleteTodo, UpdateTodo } from '@/symbols';
 import type { DeleteTodoFn, TodoItem, UpdateTodoFn } from '@/types';
+import { Toast } from './toast-message';
 
 defineProps<{
   todoItem: TodoItem;
@@ -17,13 +18,11 @@ const handleEdit = (todoItem: TodoItem) => {
 };
 
 const handleBlur = (todoItem: TodoItem, e: Event) => {
-  console.log('updated');
-
   todoItem.isEdit = false;
   const inputValue = (e.target as HTMLInputElement).value;
 
   if (!inputValue.trim()) {
-    return;
+    return Toast({ type: 'warn', text: '內容不得為空！' });
   }
 
   if (todoItem.content === inputValue) return;

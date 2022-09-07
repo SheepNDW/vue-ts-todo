@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { TodoItem } from '@/types';
+import { Toast } from './toast-message';
 
 const emit = defineEmits(['addTodo']);
 
@@ -8,7 +9,7 @@ const todoContent = ref<string>('');
 
 const emitAddTodo = () => {
   if (!todoContent.value.trim()) {
-    return;
+    return Toast({ type: 'warn', text: '請先輸入代辦內容' });
   }
 
   const todo: TodoItem = {
