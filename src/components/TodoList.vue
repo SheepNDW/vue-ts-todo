@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import useTodos from '@/composable/useTodo';
 import type { TodoItem, TodoList } from '@/types';
 import TodoListItem from './TodoListItem.vue';
 
@@ -6,8 +7,11 @@ defineProps<{
   todos: TodoList;
 }>();
 
+const { toggleTodo } = useTodos();
+
 const changeState = (todo: TodoItem, e: Event) => {
   todo.completed_at = (e.target as HTMLInputElement).checked;
+  toggleTodo(todo.id);
 };
 </script>
 

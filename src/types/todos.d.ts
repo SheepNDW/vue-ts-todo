@@ -7,6 +7,5 @@ export interface TodoItem {
 
 export type TodoList = TodoItem[];
 
-export type AddTodoFn = (todo: TodoItem) => void;
 export type DeleteTodoFn = (id: string) => void;
 export type UpdateTodoFn = (id: string, content: string) => void;

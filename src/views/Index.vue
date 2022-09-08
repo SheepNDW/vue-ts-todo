@@ -9,7 +9,7 @@ import { DeleteTodo, UpdateTodo } from '@/symbols';
 import useFilteredTodos from '@/composable/useFilteredTodo';
 import useCheckAuth from '@/composable/useCheckAuth';
 
-const { todos, addTodo, deleteTodo, updateTodo } = useTodos();
+const { todos, addTodo, deleteTodo, updateTodo, getTodoList } = useTodos();
 const { filter, filteredTodos } = useFilteredTodos(todos);
 const { checkLogin, checkSuccess } = useCheckAuth();
 
@@ -17,6 +17,7 @@ provide(DeleteTodo, deleteTodo);
 provide(UpdateTodo, updateTodo);
 
 checkLogin();
+getTodoList();
 </script>
 
 <template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { TodoItem } from '@/types';
 import { Toast } from './toast-message';
 
 const emit = defineEmits(['addTodo']);
@@ -12,10 +11,8 @@ const emitAddTodo = () => {
     return Toast({ type: 'warn', text: '請先輸入代辦內容' });
   }
 
-  const todo: TodoItem = {
-    id: String(Math.random() * 1000),
+  const todo = {
     content: todoContent.value,
-    completed_at: null,
   };
 
   emit('addTodo', todo);
