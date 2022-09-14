@@ -4,13 +4,15 @@ import TodoAdd from '@/components/TodoAdd.vue';
 import TodoFilter from '@/components/TodoFilter.vue';
 import TodoList from '@/components/TodoList.vue';
 import useTodos from '@/composable/useTodo';
-import { provide } from 'vue';
-import { DeleteTodo, UpdateTodo } from '@/symbols';
 import useFilteredTodos from '@/composable/useFilteredTodo';
 import useCheckAuth from '@/composable/useCheckAuth';
+import { provide, ref } from 'vue';
+import { DeleteTodo, UpdateTodo } from '@/symbols';
+import type { Filter } from '@/types';
 
+const filter = ref<Filter>('all');
 const { todos, addTodo, deleteTodo, updateTodo, getTodoList } = useTodos();
-const { filter, filteredTodos } = useFilteredTodos(todos);
+const { filteredTodos } = useFilteredTodos(todos, filter);
 const { checkLogin, checkSuccess } = useCheckAuth();
 
 provide(DeleteTodo, deleteTodo);

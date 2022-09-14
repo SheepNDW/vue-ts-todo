@@ -1,9 +1,14 @@
-import type { TodoList } from '@/types';
-import { ref, computed } from 'vue';
+import type { TodoList, Filter } from '@/types';
+import { computed } from 'vue';
 import type { Ref } from 'vue';
 
-export default function useFilteredTodos(todos: Ref<TodoList>) {
-  const filter = ref<'all' | 'done' | 'todo'>('all');
+/**
+ * 取得分類後的代辦清單
+ * @param todos - 欲分類的代辦列表
+ * @param filter - 欲顯示的分類 ('all' | 'todo' | 'done')
+ * @returns filteredTodos
+ */
+export default function useFilteredTodos(todos: Ref<TodoList>, filter: Ref<Filter>) {
   const filteredTodos: Ref<TodoList> = computed(() => {
     switch (filter.value) {
       case 'done':
@@ -16,7 +21,6 @@ export default function useFilteredTodos(todos: Ref<TodoList>) {
   });
 
   return {
-    filter,
     filteredTodos,
   };
 }

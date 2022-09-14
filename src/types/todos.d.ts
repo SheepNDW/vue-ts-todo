@@ -9,3 +9,5 @@ export type TodoList = TodoItem[];
 
 export type DeleteTodoFn = (id: string) => void;
 export type UpdateTodoFn = (id: string, content: string) => void;
+
+export type Filter = 'all' | 'done' | 'todo';
