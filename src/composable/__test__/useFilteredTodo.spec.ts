@@ -16,10 +16,12 @@ describe('useFilteredTodo', () => {
     expect(filteredTodos.value).toEqual(mockTodoList.value);
   });
 
-  it('if filter has changed filteredTodos should be changed too', () => {
+  it('if filter is todo', () => {
     filter.value = 'todo';
     expect(filteredTodos.value).toEqual([{ id: 'aaa', content: 'unit test', completed_at: null }]);
+  });
 
+  it('if filter is done', () => {
     filter.value = 'done';
     expect(filteredTodos.value).toEqual([
       { id: 'bbb', content: 'vue is so good', completed_at: true },
